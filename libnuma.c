@@ -279,7 +279,8 @@ unsigned int numa_bitmask_weight(const struct bitmask *bmp)
 WEAK void numa_error(char *where)
 {
 	int olde = errno;
-	perror(where);
+        if (where && strcmp(where, "get_mempolicy") && strcmp(where, "mbind"))
+		perror(where);
 	if (numa_exit_on_error)
 		exit(1);
 	errno = olde;
